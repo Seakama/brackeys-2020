@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
+using System.Collections;
+using System;
 
 public class MonsterAI : MonoBehaviour
 {
@@ -11,6 +14,7 @@ public class MonsterAI : MonoBehaviour
     [SerializeField] private MonsterStatus status = default;
     // Minimum distance before it changes node destination
     [SerializeField] private float minChangeNodeDistance = default;
+
     // Maximum distance to attack the target
     [SerializeField] private float maxAttackDistance = default;
     // Target to pursue, when visible
@@ -19,25 +23,58 @@ public class MonsterAI : MonoBehaviour
     [SerializeField] private float maxVisionAngle = default;
     // Determines if the monster has a valid destination
     private bool hasDestination;
-    
+
+    /// <summary>
+    /// Reference to the animator
+    /// </summary>
+    [SerializeField]
+    private Animator animator = default;
+
+    /// <summary>
+    /// Reference to the global audio
+    /// </summary>
+    [SerializeField]
+    private GlobalAudio globalAudio = default;
+
+    private MonsterStatus Status { get => status;
+        set {
+            
+            // pursue -> patrol
+            if (status == MonsterStatus.Pursuing && value == MonsterStatus.Patrolling)
+                globalAudio.MonsterStopsChasing();
+
+            // patrol -> pursue
+            if (status == MonsterStatus.Patrolling && value == MonsterStatus.Pursuing)
+                globalAudio.CueMonsterChase();
+
+            status = value; 
+        }
+    }
+
+    // Called whenever we interact with the linked tape
+    public void OnTapeInteract()
+    {
+        // Just for Debug, here we need the dying animation
+        Destroy(gameObject);
+    }
+
     private void Update()
     {
-        if (status != MonsterStatus.Attacking)
+        if (Status != MonsterStatus.Attacking)
         {
             CheckTargetVisibility();
 
-            if (status == MonsterStatus.Patrolling)
+            if (Status == MonsterStatus.Patrolling)
             {
                 Patrol();
             }
-            else if (status == MonsterStatus.Pursuing)
+            else if (Status == MonsterStatus.Pursuing)
             {
                 Pursue();
             }
         }
         else
         {
-            Debug.Log("The monster is still attacking the player!");
         }
     }
 
@@ -57,21 +94,19 @@ public class MonsterAI : MonoBehaviour
             {
                 // MAYBE: Add timer here if we want to "delay" the pursuing process to give the player some time to hide before being pursued
 
-                status = MonsterStatus.Pursuing;
-                Debug.Log("The monster can see the player!");
+                Status = MonsterStatus.Pursuing;
             }
             else
             {
                 // MAYBE: Add timer here if we want to "delay" the transition between pursuing to patrolling state so that the monster tries to look around to see if there is the player (or some other mechanic)
 
-                status = MonsterStatus.Patrolling;
-                Debug.Log("The monster can't see the player!");
+                Status = MonsterStatus.Patrolling;
             }
         }
         else
         {
             // If there is no target, keep patrolling
-            status = MonsterStatus.Patrolling;
+            Status = MonsterStatus.Patrolling;
         }
     }
 
@@ -83,6 +118,7 @@ public class MonsterAI : MonoBehaviour
         // If the monster hasn't got a desination, then find the nearest node and set it as the monster's destination
         if (!hasDestination)
         {
+
             int index = FindNearestPathNodeIndex();
 
             // If the index is withing the array bounds
@@ -119,7 +155,7 @@ public class MonsterAI : MonoBehaviour
         // Else keep patrolling (we could only reach this part of code if the target got destroyed while pursuing)
         else
         {
-            status = MonsterStatus.Patrolling;
+            Status = MonsterStatus.Patrolling;
             hasDestination = false;
         }
     }
@@ -133,26 +169,42 @@ public class MonsterAI : MonoBehaviour
         navMeshAgent.isStopped = true;
 
         // Set the status to Attacking
-        status = MonsterStatus.Attacking;
+        Status = MonsterStatus.Attacking;
 
         // TODO: Add attack mechanic and animation (at the end of the animation, set the Status back to Patrolling or Pursuing)
-        Debug.Log("The monster has attacked the target!");
+        animator.SetTrigger("Attack");
 
         // TODO: Just for debug (Call the method the animation is completed)
-        OnAttackCompleted();
+        //StartCoroutine(OnAttackCompletedDebug());
+        //OnAttackCompleted();
+    }
+
+    private IEnumerator OnAttackCompletedDebug()
+    {
+        yield return new WaitForSeconds(1f);
+
+        // Remove the stop state
+        navMeshAgent.isStopped = false;
+        // Set the status to patrolling (pursue would also be ok)
+        Status = MonsterStatus.Patrolling;
+        // Set the destination to null, so that the monster searches for the close node in the path
+        hasDestination = false;
     }
 
     /// <summary>
     /// Method called whenever an attack animation has been completed
     /// </summary>
-    private void OnAttackCompleted()
+    public void OnAttackCompleted()
     {
         // Remove the stop state
         navMeshAgent.isStopped = false;
         // Set the status to patrolling (pursue would also be ok)
-        status = MonsterStatus.Patrolling;
+        Status = MonsterStatus.Patrolling;
         // Set the destination to null, so that the monster searches for the close node in the path
         hasDestination = false;
+
+        // player takes (fatal) damage
+        target.GetComponent<PlayerHealth>().TakeDamage();
     }
 
     /// <summary>
@@ -187,6 +239,11 @@ public class MonsterAI : MonoBehaviour
         }
 
         return nearestIndex;
+    }
+
+    public void RewindDeath()
+    {
+        Destroy(this.gameObject);
     }
 }
 

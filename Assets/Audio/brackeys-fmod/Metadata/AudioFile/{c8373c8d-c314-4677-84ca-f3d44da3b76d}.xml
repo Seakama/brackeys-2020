@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="AudioFile" id="{c8373c8d-c314-4677-84ca-f3d44da3b76d}">
+		<property name="assetPath">
+			<value>rewind-radio_ambience2.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>76.224000000000004</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{0ce84978-96ea-4eb5-a6b9-770badd24628}</destination>
+		</relationship>
+	</object>
+</objects>

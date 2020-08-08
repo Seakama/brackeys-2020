@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="AudioFile" id="{1ea20bde-5f45-49d7-b3c2-d7e55666d7fa}">
+		<property name="assetPath">
+			<value>rewind-electric_buzz.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>13.896000000000001</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{0ce84978-96ea-4eb5-a6b9-770badd24628}</destination>
+		</relationship>
+	</object>
+</objects>

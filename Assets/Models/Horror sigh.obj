@@ -1,7 +1,7 @@
 # Blender v2.83.3 OBJ File: 'Vhstapes.blend'
 # www.blender.org
 mtllib Horror sigh.mtl
-o HORROR_Sigh_Cube
+o HORROR_Sign_Cube.035
 v -0.025512 -0.062896 1.000000
 v -0.089748 -0.221262 0.284259
 v -0.057630 -0.142079 0.904109
@@ -136,7 +136,7 @@ vn 0.0000 0.9982 0.0592
 vn 0.0000 0.9764 0.2160
 vn 0.0000 0.7711 0.6367
 vn 0.0000 -1.0000 0.0000
-usemtl Colors_and_Textures
+usemtl (null)
 s off
 f 17/1/1 21/2/1 5/3/1 1/4/1
 f 26/5/2 29/6/2 22/7/2 18/8/2

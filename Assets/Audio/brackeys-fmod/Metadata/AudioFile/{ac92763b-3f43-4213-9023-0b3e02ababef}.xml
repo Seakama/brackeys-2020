@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="AudioFile" id="{ac92763b-3f43-4213-9023-0b3e02ababef}">
+		<property name="assetPath">
+			<value>rewind-VHS-ambience.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>18.527999999999999</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{0ce84978-96ea-4eb5-a6b9-770badd24628}</destination>
+		</relationship>
+	</object>
+</objects>

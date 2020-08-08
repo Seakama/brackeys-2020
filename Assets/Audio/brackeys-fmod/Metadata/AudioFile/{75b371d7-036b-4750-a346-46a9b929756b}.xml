@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="AudioFile" id="{75b371d7-036b-4750-a346-46a9b929756b}">
+		<property name="assetPath">
+			<value>rw-gameplay-chase.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>123.84</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{0ce84978-96ea-4eb5-a6b9-770badd24628}</destination>
+		</relationship>
+	</object>
+</objects>

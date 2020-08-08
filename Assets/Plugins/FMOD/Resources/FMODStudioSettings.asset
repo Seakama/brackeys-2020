@@ -78,6 +78,11 @@ MonoBehaviour:
   Plugins: []
   MasterBanks:
   - Master
-  Banks: []
+  Banks:
+  - ambiences
+  - item sounds
+  - music
+  - sfx
+  - voiceover
   BanksToLoad: []
   LiveUpdatePort: 9264
